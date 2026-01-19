@@ -1,0 +1,39 @@
+class Graph:
+    def __init__(self):
+        self.graph = {}
+
+    def add_edge(self, u, v):
+        if u not in self.graph:
+            self.graph[u] = []
+        if v not in self.graph:
+            self.graph[v] = []
+        self.graph[u].append(v)
+        self.graph[v].append(u)  # For undirected graph
+
+    def dfs(self, vertex, visited):
+        visited.add(vertex)
+        print(vertex, end=' ')
+        for neighbor in self.graph[vertex]:
+            if neighbor not in visited:
+                self.dfs(neighbor, visited)
+
+    def start_dfs(self, start_vertex):
+        visited = set()
+        self.dfs(start_vertex, visited)
+
+def main():
+    g = Graph()
+    num_edges = int(input("Enter the number of edges in the graph: "))
+
+    for _ in range(num_edges):
+        u, v = map(int, input("Enter an edge (u v): ").split())
+        g.add_edge(u, v)
+
+    start_vertex = int(input("Enter the starting vertex for DFS: "))
+    
+    print("DFS starting from vertex", start_vertex, ":")
+    g.start_dfs(start_vertex)
+
+if __name__ == "__main__":
+    main()
+

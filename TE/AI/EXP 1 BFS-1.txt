@@ -1,0 +1,45 @@
+from collections import deque
+
+class Graph:
+    def __init__(self):
+        self.graph = {}
+
+    def add_edge(self, u, v):
+        if u not in self.graph:
+            self.graph[u] = []
+        if v not in self.graph:
+            self.graph[v] = []
+        self.graph[u].append(v)
+        self.graph[v].append(u)  # For undirected graph
+
+    def bfs(self, start_vertex):
+        visited = set()  # Set to track visited vertices
+        queue = deque([start_vertex])  # Initialize queue with the starting vertex
+        visited.add(start_vertex)
+
+        while queue:
+            vertex = queue.popleft()  # Dequeue a vertex
+            print(vertex, end=' ')
+
+            # Enqueue all unvisited neighbors
+            for neighbor in self.graph[vertex]:
+                if neighbor not in visited:
+                    visited.add(neighbor)
+                    queue.append(neighbor)
+
+def main():
+    g = Graph()
+    num_edges = int(input("Enter the number of edges in the graph: "))
+
+    for _ in range(num_edges):
+        u, v = map(int, input("Enter an edge (u v): ").split())
+        g.add_edge(u, v)
+
+    start_vertex = int(input("Enter the starting vertex for BFS: "))
+    
+    print("BFS starting from vertex", start_vertex, ":")
+    g.bfs(start_vertex)
+
+if __name__ == "__main__":
+    main()
+
